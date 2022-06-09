@@ -24,7 +24,7 @@ export const listFiles = async () => {
       }
     };
     console.table(dirEntries);
-    console.log(`${currentDirectory}\\`);
+    console.log(`${currentDirectory}`);
   } catch {
     console.log('Operation failed');
   }

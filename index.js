@@ -3,13 +3,12 @@ import { getUserName } from './src/getUserName.js';
 import { argv } from 'process';
 import { chdir, cwd } from 'process';
 import { homedir } from 'os';
-import * as fs from 'fs';
-import * as path from 'path';
 import { listFiles } from './src/ls.js';
 import { up } from './src/up.js';
 import { cd } from './src/cd.js';
 import { cat } from './src/cat.js';
 import { add } from './src/add.js';
+import { rn } from './src/rn.js';
 
 const userName = getUserName(argv);
 const homeDir = `${homedir()}`;
@@ -42,6 +41,9 @@ process.stdin.on('data', async (chunk) => {
   }
   if (command === 'add') {
     add(newPath);
+  }
+  if (command === 'rn') {
+    rn(newPath);
   }
 })
 process.on('SIGINT', () => {
