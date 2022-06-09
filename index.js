@@ -37,7 +37,7 @@ process.stdin.on('data', async (chunk) => {
     await cd(newPath);
   }
   if (command === 'cat') {
-    cat(currentDirectory, newPath);
+    cat(newPath);
   }
 })
 process.on('SIGINT', () => {
