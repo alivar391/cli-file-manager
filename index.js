@@ -9,6 +9,7 @@ import { listFiles } from './src/ls.js';
 import { up } from './src/up.js';
 import { cd } from './src/cd.js';
 import { cat } from './src/cat.js';
+import { add } from './src/add.js';
 
 const userName = getUserName(argv);
 const homeDir = `${homedir()}`;
@@ -38,6 +39,9 @@ process.stdin.on('data', async (chunk) => {
   }
   if (command === 'cat') {
     cat(newPath);
+  }
+  if (command === 'add') {
+    add(newPath);
   }
 })
 process.on('SIGINT', () => {
