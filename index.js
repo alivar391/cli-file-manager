@@ -3,20 +3,23 @@ import { getUserName } from './src/getUserName.js';
 import { argv } from 'process';
 import { chdir, cwd } from 'process';
 import { homedir } from 'os';
-import { listFiles } from './src/ls.js';
-import { up } from './src/up.js';
-import { cd } from './src/cd.js';
-import { cat } from './src/cat.js';
-import { add } from './src/add.js';
-import { rn } from './src/rn.js';
+import { listFiles } from './src/navigate/ls.js';
+import { up } from './src/navigate/up.js';
+import { cd } from './src/navigate/cd.js';
+import { cat } from './src/fs/cat.js';
+import { add } from './src/fs/add.js';
+import { rn } from './src/fs/rn.js';
+import { operationSystem } from './src/os/os.js';
+import { hash } from './src/hash/hash.js';
 
 const userName = getUserName(argv);
 const homeDir = `${homedir()}`;
 
 console.log(`Welcome to the File Manager, ${userName}!`);
+
 try {
   chdir(`${homeDir}`);
-  console.log(cwd());
+  console.log(`You are currently in ${cwd()}\\`);
 } catch (err) {
   console.error(`chdir: ${err}`);
 }
@@ -45,14 +48,17 @@ process.stdin.on('data', async (chunk) => {
   if (command === 'rn') {
     rn(newPath);
   }
+  if (command === 'os') {
+    operationSystem(newPath);
+  }
+  if (command === 'hash') {
+    hash(newPath);
+  }
 })
 process.on('SIGINT', () => {
   process.stdout.write(`Thank you for using File Manager, ${userName}!`);
   process.exit(0);
 })
-function getHomedir () {
-  return process.env.HOME || process.env.USERPROFILE;
-}
 function printCurrentDirectory (directory) {
   process.stdout.write(`You are currently in ${directory}\\\r\n`);
 }

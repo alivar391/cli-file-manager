@@ -13,7 +13,7 @@ export const cat = (fileName) => {
     const readableStream = fs.createReadStream(newPath, 'utf8');
     readableStream.on('data', data => {
       console.log(data);
-      console.log(`${cwd()}\\`);
+      console.log(`You are currently in ${cwd()}\\`);
     });
     readableStream.on('error', function (error) {
       console.log('Operation failed');
@@ -21,6 +21,6 @@ export const cat = (fileName) => {
   }
   catch (err) {
     console.log('Operation failed');
-    console.log(`${cwd()}\\`);
+    console.log(`You are currently in ${cwd()}\\`);
   }
 };

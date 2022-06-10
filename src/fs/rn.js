@@ -11,7 +11,6 @@ export const rn = async (args) => {
     } else {
       pathToFile = path.join(cwd(), fileName);
     }
-    console.log(pathToFile, path.join(pathToFile, newFileName))
     if (!path.isAbsolute(newFileName)) {
       await fs.rename(pathToFile, path.join(cwd(), newFileName));
     } else {
@@ -19,5 +18,7 @@ export const rn = async (args) => {
     }
   } catch (err) {
     console.log('Operation failed');
+  } finally {
+    console.log(`You are currently in ${cwd()}\\`);
   }
 };

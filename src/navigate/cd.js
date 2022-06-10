@@ -8,9 +8,10 @@ export const cd = async (newPath) => {
     } else {
       chdir(path.join(cwd(), newPath));
     }
-    console.log(`${cwd()}\\`);
   }
   catch (err) {
     console.log('Operation failed');
+  } finally {
+    console.log(`You are currently in ${cwd()}\\`);
   }
 }

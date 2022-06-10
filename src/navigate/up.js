@@ -4,8 +4,9 @@ import { chdir, cwd } from 'process';
 export const up = () => {
   try {
     chdir('../');
-    console.log(`${cwd()}\\`);
   } catch (err) {
     console.error('Operation failed');
+  } finally {
+    console.log(`You are currently in ${cwd()}\\`);
   }
 }

@@ -5,7 +5,6 @@ import { cwd } from 'process';
 export const listFiles = async () => {
   try {
     const currentDirectory = cwd();
-    console.log(currentDirectory);
     const dirEntries = [];
     const entries = await fs.promises.readdir(`${currentDirectory}`, { withFileTypes: true });
     for (const element of entries) {
@@ -24,8 +23,9 @@ export const listFiles = async () => {
       }
     };
     console.table(dirEntries);
-    console.log(`${currentDirectory}`);
   } catch {
     console.log('Operation failed');
+  } finally {
+    console.log(`You are currently in ${cwd()}`);
   }
 };
