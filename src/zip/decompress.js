@@ -8,15 +8,18 @@ export const decompress = async (args) => {
   const [fileName, newFileName] = args.split(' ');
   let fileToDecompress;
   let unZipFile;
-  if (path.isAbsolute(fileName)) {
-    fileToDecompress = path.resolve(cwd(), fileName);
-  } else {
-    fileToDecompress = path.join(cwd(), fileName);
-  }
-  if (path.isAbsolute(newFileName)) {
-    unZipFile = path.resolve(cwd(), newFileName);
-  } else {
-    unZipFile = path.join(cwd(), newFileName);
+  try {
+    if (path.isAbsolute(fileName)) {
+      fileToDecompress = path.resolve(cwd(), fileName);
+    } else {
+      fileToDecompress = path.join(cwd(), fileName);
+    }
+    if (path.isAbsolute(newFileName)) {
+      unZipFile = path.resolve(cwd(), newFileName);
+    } else {
+      unZipFile = path.join(cwd(), newFileName);
+    }
+  } catch {
   }
   access(fileToDecompress)
     .then(() => {

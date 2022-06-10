@@ -8,15 +8,18 @@ export const compress = async (args) => {
   const [fileName, newFileName] = args.split(' ');
   let fileToCompress;
   let zipFile;
-  if (path.isAbsolute(fileName)) {
-    fileToCompress = path.resolve(cwd(), fileName);
-  } else {
-    fileToCompress = path.join(cwd(), fileName);
-  }
-  if (path.isAbsolute(newFileName)) {
-    zipFile = path.resolve(cwd(), newFileName);
-  } else {
-    zipFile = path.join(cwd(), newFileName);
+  try {
+    if (path.isAbsolute(fileName)) {
+      fileToCompress = path.resolve(cwd(), fileName);
+    } else {
+      fileToCompress = path.join(cwd(), fileName);
+    }
+    if (path.isAbsolute(newFileName)) {
+      zipFile = path.resolve(cwd(), newFileName);
+    } else {
+      zipFile = path.join(cwd(), newFileName);
+    }
+  } catch {
   }
   access(fileToCompress)
     .then(() => {
