@@ -11,6 +11,8 @@ import { add } from './src/fs/add.js';
 import { rn } from './src/fs/rn.js';
 import { operationSystem } from './src/os/os.js';
 import { hash } from './src/hash/hash.js';
+import { compress } from './src/zip/compress.js';
+import { decompress } from './src/zip/decompress.js';
 
 const userName = getUserName(argv);
 const homeDir = `${homedir()}`;
@@ -54,11 +56,14 @@ process.stdin.on('data', async (chunk) => {
   if (command === 'hash') {
     hash(newPath);
   }
+  if (command === 'compress') {
+    compress(newPath);
+  }
+  if (command === 'decompress') {
+    decompress(newPath);
+  }
 })
 process.on('SIGINT', () => {
   process.stdout.write(`Thank you for using File Manager, ${userName}!`);
   process.exit(0);
 })
-function printCurrentDirectory (directory) {
-  process.stdout.write(`You are currently in ${directory}\\\r\n`);
-}
