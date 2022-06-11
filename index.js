@@ -14,6 +14,7 @@ import { hash } from './src/hash/hash.js';
 import { compress } from './src/zip/compress.js';
 import { decompress } from './src/zip/decompress.js';
 import { rm } from './src/fs/rm.js';
+import { cp } from './src/fs/cp.js';
 
 const userName = getUserName(argv);
 const homeDir = `${homedir()}`;
@@ -53,6 +54,9 @@ process.stdin.on('data', async (chunk) => {
   }
   if (command === 'rm') {
     rm(newPath);
+  }
+  if (command === 'cp') {
+    cp(newPath);
   }
   if (command === 'os') {
     operationSystem(newPath);
