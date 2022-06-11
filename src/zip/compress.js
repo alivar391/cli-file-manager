@@ -8,6 +8,7 @@ export const compress = async (args) => {
   const [fileName, newFileName] = args.split(' ');
   let fileToCompress;
   let zipFile;
+  
   try {
     if (path.isAbsolute(fileName)) {
       fileToCompress = path.resolve(cwd(), fileName);
@@ -22,7 +23,14 @@ export const compress = async (args) => {
   } catch {
   }
   access(fileToCompress)
-    .then(() => {
+    .then(async () => {
+      try {
+        const stats = await fs.promises.stat(zipFile);
+        if (stats.isDirectory) {
+          console.log('Operation failed: End path is not a file');
+          return;
+        }
+      } catch { };
       const readableStream = createReadStream(fileToCompress);
       const writableStream = createWriteStream(zipFile);
       readableStream

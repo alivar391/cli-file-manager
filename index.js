@@ -15,6 +15,7 @@ import { compress } from './src/zip/compress.js';
 import { decompress } from './src/zip/decompress.js';
 import { rm } from './src/fs/rm.js';
 import { cp } from './src/fs/cp.js';
+import { mv } from './src/fs/mv.js';
 
 const userName = getUserName(argv);
 const homeDir = `${homedir()}`;
@@ -36,39 +37,57 @@ process.stdin.on('data', async (chunk) => {
   }
   if (command === 'ls') {
     listFiles();
+    return;
   }
   if (command === 'up') {
     up();
+    return;
   }
   if (command === 'cd') {
-    await cd(newPath);
+    cd(newPath);
+    return;
   }
   if (command === 'cat') {
     cat(newPath);
+    return;
   }
   if (command === 'add') {
     add(newPath);
+    return;
   }
   if (command === 'rn') {
     rn(newPath);
+    return;
   }
   if (command === 'rm') {
     rm(newPath);
+    return;
   }
   if (command === 'cp') {
     cp(newPath);
+    return;
+  }
+  if (command === 'mv') {
+    mv(newPath);
+    return;
   }
   if (command === 'os') {
     operationSystem(newPath);
+    return;
   }
   if (command === 'hash') {
     hash(newPath);
+    return;
   }
   if (command === 'compress') {
     compress(newPath);
+    return;
   }
   if (command === 'decompress') {
     decompress(newPath);
+    return;
+  } else {
+    console.log('Invalid input');
   }
 })
 process.on('SIGINT', () => {

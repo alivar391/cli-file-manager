@@ -12,7 +12,7 @@ export const add = async (fileName) => {
     }
     await fs.writeFile(newPath, '', { flag: 'wx' });
   } catch (err) {
-    console.log('Operation failed: file already exists');
+    console.log('Operation failed');
   } finally {
     console.log(`You are currently in ${cwd()}\\`);
   }
