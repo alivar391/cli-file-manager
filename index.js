@@ -13,6 +13,7 @@ import { operationSystem } from './src/os/os.js';
 import { hash } from './src/hash/hash.js';
 import { compress } from './src/zip/compress.js';
 import { decompress } from './src/zip/decompress.js';
+import { rm } from './src/fs/rm.js';
 
 const userName = getUserName(argv);
 const homeDir = `${homedir()}`;
@@ -49,6 +50,9 @@ process.stdin.on('data', async (chunk) => {
   }
   if (command === 'rn') {
     rn(newPath);
+  }
+  if (command === 'rm') {
+    rm(newPath);
   }
   if (command === 'os') {
     operationSystem(newPath);
