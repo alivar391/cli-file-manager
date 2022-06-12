@@ -10,9 +10,15 @@ export const rm = async (fileName) => {
     } else {
       newPath = path.join(cwd(), fileName);
     }
-    await fs.unlink(path.join(newPath));
-    console.log(`File removed successfully!`);
-    console.log(`You are currently in ${cwd()}\\`);
+    const statsFile = await fs.stat(newPath);
+    if (statsFile.isFile()) {
+      await fs.unlink(newPath);
+      console.log(`File removed successfully!`);
+      console.log(`You are currently in ${cwd()}\\`);
+    } else {
+      console.log('Operation failed');
+      console.log(`You are currently in ${cwd()}\\`);
+    }
   } catch {
     console.log('Operation failed');
     console.log(`You are currently in ${cwd()}\\`);
