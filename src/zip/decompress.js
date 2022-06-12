@@ -3,9 +3,10 @@ import { createBrotliDecompress } from 'zlib';
 import * as path from 'path';
 import * as fs from 'fs';
 import { cwd } from 'process';
+import { validateArgs } from '../utils/validateArgs.js';
 
 export const decompress = async (args) => {
-  const [fileName, newFileName] = args.split(' ');
+  const [fileName, newFileName] = args.includes("'") ? validateArgs(args) : args.split(' ');
   let fileToDecompress;
   let unZipFile;
   try {
@@ -28,9 +29,6 @@ export const decompress = async (args) => {
       const readableStream = createReadStream(fileToDecompress);
       const writableStream = createWriteStream(unZipFile);
       const unzip = createBrotliDecompress();
-      // unzip.on('error', () => {
-      //   console.log(123);
-      // })
       readableStream
         .pipe(createBrotliDecompress().on('error', () => {
           console.log('File isn`t zip');

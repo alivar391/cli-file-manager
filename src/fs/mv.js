@@ -1,9 +1,10 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { cwd } from 'process';
+import { validateArgs } from '../utils/validateArgs.js';
 
 export const mv = async (args) => {
-  const [fileName, newFileName] = args.split(' ');
+  const [fileName, newFileName] = args.includes("'") ? validateArgs(args) : args.split(' ');
   let fileToCopy;
   let newDirectory;
   let clearFileName;

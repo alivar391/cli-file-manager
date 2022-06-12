@@ -1,9 +1,10 @@
 import * as path from 'path';
 import * as fs from 'fs/promises';
 import { cwd } from 'process';
+import { validateArgs } from '../utils/validateArgs.js';
 
 export const rn = async (args) => {
-  const [fileName, newFileName] = args.split(' ');
+  const [fileName, newFileName] = args.includes("'") ? validateArgs(args) : args.split(' ');
   try {
     let pathToFile;
     if (path.isAbsolute(fileName)) {
