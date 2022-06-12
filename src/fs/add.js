@@ -11,6 +11,7 @@ export const add = async (fileName) => {
       newPath = path.join(cwd(), fileName);
     }
     await fs.writeFile(newPath, '', { flag: 'wx' });
+    console.log('Empty file created successfully');
   } catch (err) {
     console.log('Operation failed');
   } finally {

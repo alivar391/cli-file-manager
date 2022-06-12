@@ -11,8 +11,13 @@ export const rn = async (args) => {
     } else {
       pathToFile = path.join(cwd(), fileName);
     }
-    if (!path.isAbsolute(newFileName)) {
-      await fs.rename(pathToFile, path.join(cwd(), newFileName));
+    const stats = await fs.stat(pathToFile);
+    if (!path.isAbsolute(newFileName) && stats.isFile()) {
+      const arr = pathToFile.split('\\');
+      arr.splice(arr.length - 1);
+      const pathToFolder = arr.join('\\');
+      await fs.rename(pathToFile, path.join(pathToFolder, newFileName));
+      console.log('File renamed successfully!');
     } else {
       console.log('Operation failed');
     }

@@ -20,13 +20,11 @@ export const compress = async (args) => {
     } else {
       zipFile = path.join(cwd(), newFileName);
     }
-  } catch {
-  }
   access(fileToCompress)
     .then(async () => {
       try {
         const stats = await fs.promises.stat(zipFile);
-        if (stats.isDirectory) {
+        if (!stats.isDirectory) {
           console.log('Operation failed: End path is not a file');
           return;
         }
@@ -45,4 +43,7 @@ export const compress = async (args) => {
       console.log('Operation failed');
       console.log(`You are currently in ${cwd()}\\`);
     });
+  } catch (err) {
+    console.log(123);
+  }
 };
