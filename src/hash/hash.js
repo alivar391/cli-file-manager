@@ -11,15 +11,21 @@ export const hash = async (fileName) => {
     } else {
       newPath = path.join(cwd(), fileName);
     }
-    const readableStream = fs.createReadStream(newPath);
-    const hash = crypto.createHash('sha256');
-    readableStream.on('end', () => {
-      hash.end();
-      const hex = hash.digest('hex');
-      console.log(hex);
+    const statsFile = await fs.promises.stat(newPath);
+    if (statsFile.isFile()) {
+      const readableStream = fs.createReadStream(newPath);
+      const hash = crypto.createHash('sha256');
+      readableStream.on('end', () => {
+        hash.end();
+        const hex = hash.digest('hex');
+        console.log(hex);
+        console.log(`You are currently in ${cwd()}\\`);
+      });
+      readableStream.pipe(hash);
+    } else {
+      console.log('Operation failed');
       console.log(`You are currently in ${cwd()}\\`);
-    });
-    readableStream.pipe(hash);
+    }
   } catch {
     console.log('Operation failed');
     console.log(`You are currently in ${cwd()}\\`);
