@@ -4,7 +4,6 @@ import { cwd } from 'process';
 export const operationSystem = (args) => {
   if (args.startsWith('--') && !args.includes(' ')) {
     const command = args.slice(2);
-    console.log(command);
     try {
       if (command === 'EOL') {
         console.log(JSON.stringify(`Default system End-Of-Line is ${os.EOL}`));
