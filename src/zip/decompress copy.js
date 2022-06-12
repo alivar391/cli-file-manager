@@ -1,7 +1,7 @@
 import { createReadStream, createWriteStream } from 'fs';
 import { createBrotliDecompress } from 'zlib';
 import * as path from 'path';
-import * as fs from 'fs';
+import { access } from 'fs/promises';
 import { cwd } from 'process';
 
 export const decompress = async (args) => {
@@ -19,35 +19,22 @@ export const decompress = async (args) => {
     } else {
       unZipFile = path.join(cwd(), newFileName);
     }
-
-    const statsFile = await fs.promises.stat(fileToDecompress);
-    await fs.promises.writeFile(unZipFile, '');
-    const statsDir = await fs.promises.stat(unZipFile);
-
-    if (statsFile.isFile() && !statsDir.isDirectory()) {
+  } catch {
+  }
+  access(fileToDecompress)
+    .then(() => {
       const readableStream = createReadStream(fileToDecompress);
       const writableStream = createWriteStream(unZipFile);
-      const unzip = createBrotliDecompress();
-      // unzip.on('error', () => {
-      //   console.log(123);
-      // })
       readableStream
-        .pipe(createBrotliDecompress().on('error', () => {
-          console.log('File isn`t zip');
-          console.log(`You are currently in ${cwd()}\\`);
-        }))
+        .pipe(createBrotliDecompress())
         .pipe(writableStream)
         .on('finish', () => {
           console.log(`Decompression process done, result in  ${unZipFile}`);
           console.log(`You are currently in ${cwd()}\\`);
         })
-    } else {
+    })
+    .catch((err) => {
       console.log('Operation failed');
       console.log(`You are currently in ${cwd()}\\`);
-    };
-    
-  } catch (err) {
-    console.log('Operation failed');
-    console.log(`You are currently in ${cwd()}\\`);
-  };
+    });
 };
