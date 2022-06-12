@@ -21,22 +21,24 @@ export const cp = async (args) => {
     } else {
       newDirectory = path.join(cwd(), newFileName);
     }
-    const stats = await fs.promises.stat(newDirectory);
-    if (!stats.isDirectory) {
-      console.log('Operation failed: End path is not a directory');
-      return;
-    }
-    const readableStream = fs.createReadStream(fileToCopy);
-    const writableStream = fs.createWriteStream(path.join(newDirectory, clearFileName));
-    readableStream.pipe(writableStream);
-    readableStream.on('error', () => {
+    const statsDir = await fs.promises.stat(newDirectory);
+    const statsFile = await fs.promises.stat(fileToCopy);
+    if (statsDir.isDirectory() && statsFile.isFile()) {
+      const readableStream = fs.createReadStream(fileToCopy);
+      const writableStream = fs.createWriteStream(path.join(newDirectory, clearFileName));
+      readableStream.pipe(writableStream);
+      readableStream.on('error', () => {
+        console.log('Operation failed');
+        console.log(`You are currently in ${cwd()}\\`);
+      });
+      readableStream.on('end', () => {
+        console.log('File copied successfully');
+        console.log(`You are currently in ${cwd()}\\`);
+      })
+    } else {
       console.log('Operation failed');
       console.log(`You are currently in ${cwd()}\\`);
-    });
-    readableStream.on('end', () => {
-      console.log('File copied successfully');
-      console.log(`You are currently in ${cwd()}\\`);
-    })
+    }
   }
   catch (err) {
     console.log('Operation failed');
